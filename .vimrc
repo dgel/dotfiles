@@ -16,12 +16,15 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'Raimondi/delimitMate'
 Plugin 'rking/ag.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
+" Plugin 'Valloric/YouCompleteMe'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'tpope/vim-commentary'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 "Plugin 'L9'
@@ -43,9 +46,9 @@ set number
 syntax enable
 set background=dark
 colorscheme solarized
-let g:airline_theme='kolor' 
+let g:airline_theme='kolor'
+let mapleader = ","
 
-set nocompatible
 set modelines=0
 set encoding=utf-8
 set scrolloff=3
@@ -69,22 +72,29 @@ set formatoptions=qrn1
 
 nnoremap <leader><space> :noh<cr>
 
-
 " Syntastic settings
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_checkers = ['cppcheck', 'gcc']
-let g:syntastic_c_checkers = ['cppcheck', 'gcc']
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_cpp_checkers = ['cppcheck', 'gcc']
+"let g:syntastic_c_checkers = ['cppcheck', 'gcc']
 
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" YouCompleteMe settings
+" nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap <leader>gt :YcmCompleter GetType<CR>
+" let g:ycm_confirm_extra_conf = 0
+" let g:ycm_enable_diagnostic_hightlighting = 0
+" let g:ycm_enable_diagnostic_signs = 1
+" let g:ycm_always_populate_location_list = 1
+" let g:ycm_open_loclist_on_ycm_diags = 1
+
+set hlsearch
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set smartindent
+
+" Treat sconscript files as python
+autocmd BufReadPre SCons* set filetype=python
+autocmd BufNewFile SCons* set filetype=python
+
