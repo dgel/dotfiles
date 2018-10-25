@@ -2,12 +2,10 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'tpope/vim-fugitive'
-Plug 'lifepillar/vim-solarized8' " solarized color scheme
 Plug 'mhartington/oceanic-next' " oceanic color scheme
 Plug 'vim-airline/vim-airline'
 Plug 'wellle/targets.vim'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --racer-completer' }
-Plug 'lifepillar/vim-solarized8' " solarized color scheme
 Plug 'Raimondi/delimitMate'
 Plug 'junegunn/fzf', { 'dir': '~/.build/fzf', 'do': './install --all' }
 Plug 'octol/vim-cpp-enhanced-highlight'
