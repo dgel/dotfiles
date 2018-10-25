@@ -16,14 +16,30 @@ Plug 'rhysd/vim-clang-format'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround' " add and modify surrounding characters
+Plug 'tpope/vim-abolish' " converting snake_case, CamelCase etc
+Plug 'tpope/vim-repeat' " integrate repeating plugin commands
 Plug 'mhinz/vim-grepper'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'rust-lang/rust.vim'
+Plug 'w0rp/ale'
 call plug#end()
 
 let mapleader = ","
 
+set clipboard=unnamedplus
+
 let g:python_host_prog='/usr/bin/python' " setting manually speeds up startup time
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+
+let g:ale_c_parse_compile_commands = 1
+let g:ale_c_build_dir_names = ['build', 'build_debug']
+let g:ale_cpp_clangtidy_checks = ['cppcoreguidelines*', 'bugprone*', 'modernize*', 'performance*']
+let g:ale_cpp_cppcheck_options = '--enable=style --suppress=passedByValue'
+let g:ale_linters = {
+      \ 'cpp': ['cppcheck', 'clangtidy', 'clangcheck']
+      \}
 
 " set file locations
 set directory=~/.config/nvim/swapfiles//
@@ -57,6 +73,8 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 set lazyredraw " redraw only when needed (not while executing macros)
+
+let g:clang_format#command="clang-format-8"
 
 nnoremap <leader>rg :Grepper -tool rg<cr>
 nnoremap <c-p> :FZF<cr>
