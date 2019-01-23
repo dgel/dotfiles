@@ -2,7 +2,6 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'tpope/vim-fugitive'
-Plug 'mhartington/oceanic-next' " oceanic color scheme
 Plug 'vim-airline/vim-airline'
 Plug 'wellle/targets.vim'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --racer-completer' }
@@ -21,6 +20,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'rust-lang/rust.vim'
 Plug 'w0rp/ale'
+Plug 'dracula/vim', {'as': 'dracula'}
 call plug#end()
 
 let mapleader = ","
@@ -50,8 +50,8 @@ endif
 
 syntax enable
 " appearance options
-colorscheme OceanicNext
-let g:airline_theme='oceanicnext'
+color dracula
+" let g:airline_theme='snazzy'
 set guifont=Fira\ Code\ Light:h11
 " set macligatures
 set linespace=1
