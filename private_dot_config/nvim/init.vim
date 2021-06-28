@@ -18,10 +18,17 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'rust-lang/rust.vim'
 Plug 'w0rp/ale'
 Plug 'dracula/vim', {'as': 'dracula'}
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'cloudhead/neovim-fuzzy'
 Plug 'lervag/vimtex'
+Plug 'mbbill/undotree'
 call plug#end()
+
+" exrc allows loading local executing local rc files.
+set exrc
+" seruce disallows the use of :autocmd, shell and write commands in local
+" .vimrc files.
+set secure
 
 let mapleader = ","
 
@@ -33,11 +40,15 @@ let g:ale_c_parse_compile_commands = 1
 let g:ale_c_build_dir_names = ['build', 'build_debug']
 let g:ale_cpp_clangtidy_executable = 'clang-tidy-8'
 let g:ale_cpp_clangcheck_executable = 'clang-check-8'
-let g:ale_cpp_clangtidy_checks = ['cppcoreguidelines*', 'bugprone*', 'modernize*', 'performance*']
 let g:ale_cpp_cppcheck_options = '--enable=style --suppress=passedByValue'
 let g:ale_linters = {
-      \ 'cpp': ['cppcheck', 'clangtidy', 'clangcheck']
+      \ 'cpp': ['cppcheck', 'clangtidy'],
+      \ 'python': []
       \}
+let g:ale_fixers = {
+        'cpp': ['clangtidy'],
+        'python': []
+      }
 let g:ale_virtualtext_cursor = 1
 nnoremap <leader>? :ALEDetail<cr>
 
@@ -85,6 +96,8 @@ set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
 
+let g:tex_flavor = 'latex'
+
 function! ReplaceCopyrightYear()
   let curyear = strftime("%Y")
   let oldpos = getcurpos()
@@ -128,6 +141,6 @@ vnoremap <leader>af :call CocAction('formatSelected', 'V')<CR>
 let g:clang_format#detect_style_file = 1
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>af :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>af :ClangFormat<CR>
-autocmd FileType rust nnoremap <buffer><Leader>af :<C-u>RustFormat<CR>
-autocmd FileType rust vnoremap <buffer><Leader>af :RustFormat<CR>
+autocmd FileType rust nnoremap <buffer><Leader>af :<C-u>RustFmt<CR>
+autocmd FileType rust vnoremap <buffer><Leader>af :RustFmt<CR>
 
