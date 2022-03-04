@@ -11,7 +11,6 @@ require('packer').startup(function(use)
   use 'tpope/vim-unimpaired'
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
-  use 'tpope/vim-fugitive'
 --use 'wellle/targets.vim'
   use {
     'Raimondi/delimitMate',
@@ -44,6 +43,14 @@ require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim',
     requires = { 'nvim-lua/plenary.nvim', 'nvim-lua/popup.nvim' },
     config = function()
+      require('telescope').setup {
+        defaults = {
+          layout_strategy = 'flex',
+          layout_config = { width = 0.95 },
+          path_display = {'smart'},
+        },
+      }
+
       options = { noremap = true }
       -- >> Telescope bindings
       vim.api.nvim_set_keymap('n', '<Leader>pp', [[<cmd>lua require'telescope.builtin'.builtin{}<CR>]], options)
@@ -170,7 +177,6 @@ require('packer').startup(function(use)
   }
   use { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
   use { 'hrsh7th/cmp-path', after = 'nvim-cmp' }
-  use { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
   use { 'quangnguyen30192/cmp-nvim-ultisnips', after = 'nvim-cmp' }
 
 end)
