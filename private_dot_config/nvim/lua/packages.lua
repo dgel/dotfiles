@@ -11,6 +11,12 @@ require('packer').startup(function(use)
   use 'tpope/vim-unimpaired'
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
+  use {
+    'airblade/vim-rooter',
+    config = function()
+      vim.g.rooter_silent_chdir = 1
+    end
+  }
 --use 'wellle/targets.vim'
   use {
     'Raimondi/delimitMate',
@@ -38,7 +44,6 @@ require('packer').startup(function(use)
       vim.cmd([[ colorscheme tokyonight ]])
     end
   }
---use 'cloudhead/neovim-fuzzy'
   use { 
     'nvim-telescope/telescope.nvim',
     requires = { 'nvim-lua/plenary.nvim', 'nvim-lua/popup.nvim' },
@@ -53,21 +58,21 @@ require('packer').startup(function(use)
 
       options = { noremap = true }
       -- >> Telescope bindings
-      vim.api.nvim_set_keymap('n', '<Leader>pp', [[<cmd>lua require'telescope.builtin'.builtin{}<CR>]], options)
+      vim.api.nvim_set_keymap('n', '<leader>pp', [[<cmd>lua require'telescope.builtin'.builtin{}<CR>]], options)
       -- most recently used files
-      vim.api.nvim_set_keymap('n', '<Leader>fr', [[<cmd>lua require'telescope.builtin'.oldfiles{}<CR>]], options)
+      vim.api.nvim_set_keymap('n', '<leader>fr', [[<cmd>lua require'telescope.builtin'.oldfiles{}<CR>]], options)
       -- find buffer
-      vim.api.nvim_set_keymap('n', '<Leader>fb', [[<cmd>lua require'telescope.builtin'.buffers{}<CR>]], options)
+      vim.api.nvim_set_keymap('n', '<leader>fb', [[<cmd>lua require'telescope.builtin'.buffers{}<CR>]], options)
       -- find in current buffer
-      vim.api.nvim_set_keymap('n', '<Leader>/', [[<cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>]], options)
+      vim.api.nvim_set_keymap('n', '<leader>/', [[<cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>]], options)
       -- bookmarks
-      vim.api.nvim_set_keymap('n', '<Leader>', [[<cmd>lua require'telescope.builtin'.marks{}<CR>]], options)
+      -- vim.api.nvim_set_keymap('n', '<leader>', [[<cmd>lua require'telescope.builtin'.marks{}<CR>]], options)
       -- git files
-      vim.api.nvim_set_keymap('n', '<Leader>ff', [[<cmd>lua require'telescope.builtin'.git_files{}<CR>]], options)
+      vim.api.nvim_set_keymap('n', '<leader>ff', [[<cmd>lua require'telescope.builtin'.git_files{}<CR>]], options)
       -- all files
       vim.api.nvim_set_keymap('n', '<c-p>', [[<cmd>lua require'telescope.builtin'.find_files{}<CR>]], options)
       -- ripgrep like grep through dir
-      vim.api.nvim_set_keymap('n', '<Leader>fg', [[<cmd>lua require'telescope.builtin'.live_grep{}<CR>]], options)
+      vim.api.nvim_set_keymap('n', '<leader>fg', [[<cmd>lua require'telescope.builtin'.live_grep{}<CR>]], options)
     end
   }
 
@@ -138,7 +143,22 @@ require('packer').startup(function(use)
   }
   use {
     'neovim/nvim-lspconfig',
-    requires = 'hrsh7th/cmp-nvim-lsp'
+    requires = 'hrsh7th/cmp-nvim-lsp',
+    config = function() 
+      vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua vim.diagnostic.open_float()<CR>]], { noremap = true })
+    end
+  }
+  use { 
+    'jose-elias-alvarez/null-ls.nvim',
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.diagnostics.shellcheck,
+          null_ls.builtins.code_actions.shellcheck
+        }
+      })
+    end
   }
   use {
     'hrsh7th/nvim-cmp',
@@ -154,6 +174,8 @@ require('packer').startup(function(use)
           end,
         },
         mapping = {
+          ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i','c'}),
+          ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i','c'}),
           ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
           ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
           ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
@@ -162,16 +184,21 @@ require('packer').startup(function(use)
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
           }),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         },
 
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'ultisnips' }, -- For ultisnips users.
         }, {
-          { name = 'buffer' },
+          { name = 'buffer', keyword_length = 3 },
           { name = 'path' },
-        })
+        }),
+
+        window = {
+          completion = { border = 'rounded' },
+          documentation = { border = 'rounded' }
+        }
       })
     end
   }

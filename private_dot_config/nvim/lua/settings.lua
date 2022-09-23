@@ -30,6 +30,8 @@ vim.o.hidden = true -- hide buffers
 vim.o.scrolloff = 5 -- always show at least 5 lines around the cursor
 vim.o.inccommand = "split"
 vim.o.incsearch = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
 vim.o.hlsearch = true
 vim.o.lazyredraw = true -- redraw only when needed (not while executing macros)
 
@@ -42,3 +44,6 @@ vim.o.showmode = false
 
 vim.o.list = true
 vim.o.listchars = "tab:» ,extends:›,precedes:‹,nbsp:·,trail:·"
+
+vim.opt.diffopt = vim.opt.diffopt + "vertical"
+vim.opt.diffopt = vim.opt.diffopt + "iwhite"
